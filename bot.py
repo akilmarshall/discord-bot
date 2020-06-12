@@ -1,6 +1,31 @@
 import discord
 import re
 from random import choice
+import requests
+
+
+def api_request(category: str, name: str) -> dict:
+    # for example, category = 'spells', name = 'acid-arrow'
+    # returns a dictionary
+    api = 'https://www.dnd5eapi.co/api/'
+    url = f'{api}{category}/{name}'
+    r = requests.get(url)
+    return r.json()
+
+
+def format_spell_api(api_obj: dict) -> str:
+    out = str()
+    out += f'**Description:** {" ".join(api_obj["desc"])}\n'
+    out += f'{" ".join(api_obj["higher_level"])}\n'
+    out += f'**Range:** {api_obj["range"]}\n'
+    out += f'**Components:** {api_obj["components"]}\n'
+    out += f'**Material:** {api_obj["material"]}\n'
+    out += f'**Ritual:** {api_obj["ritual"]}\n'
+    out += f'**Duration:** {api_obj["duration"]}\n'
+    out += f'**Concentration:** {api_obj["concentration"]}\n'
+    out += f'**Casting Time:** {api_obj["casting_time"]}\n'
+    out += f'**Level:** {api_obj["level"]}'
+    return out
 
 
 def dice_roll(x: int):
@@ -55,9 +80,16 @@ async def on_message(message):
         else:
             await message.channel.send(f'[{rolls}]={total}')
 
-    # if message.channel.name == 'dnd' and message.content.startswith('^'):
-    #     # print(message.author.id)
-    #     pass
+    if message.channel.name == 'dnd' and message.content.startswith('^'):
+        # print(message.author.id)
+        # await message.channel.send(message.content[1:])
+        msg = message.content[1:]
+        if msg[:5] == 'spell':
+            head, tail = msg[:5], msg[6:]
+            tail = tail.replace(' ', '-')
+            a = api_request('spells', tail)
+            await message.channel.send(format_spell_api(a))
+
 
 with open('token') as f:
     token = f.readline().strip()

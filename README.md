@@ -5,6 +5,13 @@ A discord bot for fun.
 ### Dice Roll
 If your message consists of dn, mdn, or mdn+k  where the n,m,k are integers you will roll a dn m times and add a modifier k.
 
+## DnD API Look Up
+Uses http://www.dnd5eapi.co/docs/ to allow users to query for information about spells within the dnd channel
+
+```bash
+^spell {spell name}
+```
+
 ## TODO
 
 - rename the bot
