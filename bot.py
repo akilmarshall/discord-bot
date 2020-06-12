@@ -20,15 +20,14 @@ async def on_message(message):
     # do not reply to the bot's own messages
     if message.author == client.user:
         return
-
+    author_id = message.author.id
     dice_regex = r'^(\d*)d(\d+)([\+-]\d+)?$'
-    dice_match = re.match(dice_regex, message.content)
-    if dice_match:
+    if dice_match := re.match(dice_regex, message.content):
         number_of_dice_to_roll = dice_match.group(1)
         dice_number = int(dice_match.group(2))
         modifier = dice_match.group(3)
         # check that the dice number is valid
-        if dice_number == 0:
+        if dice_number == 0 or dice_number == 1:
             await message.channel.send('A wise guy huh.')
             return
 
@@ -49,9 +48,16 @@ async def on_message(message):
         if modifier:
             # add the modifier
             modifier = int(modifier)
-            await message.channel.send(f'[{rolls}]+{modifier}={total + modifier}')
+            if modifier > 0:
+                await message.channel.send(f'[{rolls}]+{modifier}={total + modifier}')
+            else:
+                await message.channel.send(f'[{rolls}]-{-modifier}={total + modifier}')
         else:
             await message.channel.send(f'[{rolls}]={total}')
+
+    # if message.channel.name == 'dnd' and message.content.startswith('^'):
+    #     # print(message.author.id)
+    #     pass
 
 with open('token') as f:
     token = f.readline().strip()
