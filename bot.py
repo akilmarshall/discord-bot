@@ -2,6 +2,7 @@ import discord
 import re
 from random import choice
 import requests
+import pol_speech
 
 
 def api_request(category: str, name: str) -> dict:
@@ -89,6 +90,9 @@ async def on_message(message):
             tail = tail.replace(' ', '-')
             a = api_request('spells', tail)
             await message.channel.send(format_spell_api(a))
+
+    if message.content == 'wwps' or message.content == 'what would pol say?':
+        await message.channel.send(pol_speech.pol_bot())
 
 
 with open('token') as f:
