@@ -91,7 +91,7 @@ async def on_message(message):
             a = api_request('spells', tail)
             await message.channel.send(format_spell_api(a))
 
-    if message.content == 'wwps' or message.content == 'what would pol say?':
+    if message.content in ['garbage', 'shit post', 'wwps', 'what would pol say?']:
         await message.channel.send(pol_speech.pol_bot())
 
 
