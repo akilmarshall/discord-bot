@@ -31,3 +31,10 @@ the bot then steps through the turn order player and enemies until combat ends
 
 - python 3
 - discord.py
+
+
+## Features
+```
+halep, hlp, hepl
+```
+spits out a cursed image

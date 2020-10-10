@@ -3,6 +3,7 @@ import re
 from random import choice
 import requests
 import pol_speech
+import util
 
 
 def api_request(category: str, name: str) -> dict:
@@ -93,6 +94,15 @@ async def on_message(message):
 
     if message.content in ['garbage', 'shit post', 'wwps', 'what would pol say?']:
         await message.channel.send(pol_speech.pol_bot())
+
+    elif message.content in ['+1 for the boyz', 'ya boi']:
+        util.boy_win_counter.increase()
+        await message.channel.send(f'Fall Boy Wins: {util.boy_win_counter.get_wins()}')
+    elif message.content == 'my b':
+        util.boy_win_counter.decrease()
+        await message.channel.send(f'Fall Boy Wins: {util.boy_win_counter.get_wins()}')
+    elif message.content == 'win count':
+        await message.channel.send(f'{util.boy_win_counter.get_wins()}')
 
 
 with open('token') as f:
