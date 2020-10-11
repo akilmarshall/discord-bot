@@ -1,3 +1,5 @@
+ This branch exists to fix the piecemeal mess that this code base has become
+ 
 A discord bot for fun.
 
 ## Capabilities
